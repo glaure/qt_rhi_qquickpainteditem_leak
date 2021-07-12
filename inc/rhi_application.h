@@ -11,6 +11,7 @@ enum class RenderingMode
     Dynamic,
     Desktop_OpenGL,
     Desktop_OpenGL_RHI,
+    Desktop_3D11_RHI,
     ANGLE_D3D9,
     ANGLE_D3D11,
 };
@@ -41,6 +42,8 @@ public:
             return "Desktop_OpenGL";
         case RenderingMode::Desktop_OpenGL_RHI:
             return "Desktop_OpenGL_RHI";
+        case RenderingMode::Desktop_3D11_RHI:
+            return "Desktop_3D11_RHI";
         case RenderingMode::ANGLE_D3D9:
             return "ANGLE_D3D9";
         case RenderingMode::ANGLE_D3D11:

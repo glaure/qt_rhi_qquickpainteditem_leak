@@ -3,7 +3,7 @@
 #include <QFileInfo>
 #include <QQmlContext>
 #include <QQmlEngine>
-
+#include <QSGRendererInterface>
 
 RHIApplication::RHIApplication(int& argc, char** argv)
     : QObject(nullptr)
@@ -13,8 +13,33 @@ RHIApplication::RHIApplication(int& argc, char** argv)
     , m_qml_main_file()
     , m_qml_reloader(nullptr)
 {
-    
-    // todo parse commandline
+    m_app_data = new RHIApplicationData;
+
+    QString graphics_backend = "OpenGLRhi";
+
+    // let it be configureable by command line
+    if (argc > 1)
+    {
+        graphics_backend = QString::fromLatin1(argv[1]);
+
+        if (graphics_backend == "OpenGL")
+        {
+            m_app_data->setRenderingMode(RenderingMode::Desktop_OpenGL);
+        }
+        else if (graphics_backend == "OpenGLRhi")
+        {
+            m_app_data->setRenderingMode(RenderingMode::Desktop_OpenGL_RHI);
+        }
+        else if (graphics_backend == "Direct3D11Rhi")
+        {
+            m_app_data->setRenderingMode(RenderingMode::Desktop_3D11_RHI);
+        }
+        else if (graphics_backend == "ANGLE_D3D11")
+        {
+            m_app_data->setRenderingMode(RenderingMode::ANGLE_D3D11);
+        }
+        
+    }
 
 }
 
@@ -27,8 +52,7 @@ RHIApplication::~RHIApplication()
 
 bool RHIApplication::init()
 {
-    m_app_data = new RHIApplicationData;
-
+    qunsetenv("QT_OPENGL");
 
     switch (m_app_data->getRenderingMode())
     {
@@ -40,6 +64,10 @@ bool RHIApplication::init()
     case RenderingMode::Desktop_OpenGL_RHI:
         m_app.setAttribute(Qt::AA_UseDesktopOpenGL, true);
         QQuickWindow::setSceneGraphBackend(QSGRendererInterface::OpenGLRhi);
+        break;
+    case RenderingMode::Desktop_3D11_RHI:
+        m_app.setAttribute(Qt::AA_UseDesktopOpenGL, true);
+        QQuickWindow::setSceneGraphBackend(QSGRendererInterface::Direct3D11Rhi);
         break;
     case RenderingMode::ANGLE_D3D9:
         m_app.setAttribute(Qt::AA_UseOpenGLES, true);
@@ -96,17 +124,18 @@ bool RHIApplication::initGui()
     if (m_main_window->status() == QQuickView::Error)
         return false;
 
-    //m_main_window->setResizeMode(QQuickView::SizeRootObjectToView);
-    
+    auto render_if = m_main_window->rendererInterface();
+    auto graphics_api = render_if->graphicsApi();
+
+   
     m_main_window->rootContext()->setContextProperty("app", m_app_data);
 
     m_main_window->show();
-    //m_main_window->hide();
+
     if (m_qml_reloader) 
     {
         m_qml_reloader->addView(m_main_window);
     }
-
 
     return true;
 }

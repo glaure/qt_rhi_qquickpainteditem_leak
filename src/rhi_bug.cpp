@@ -10,8 +10,8 @@ int main(int argc, char* argv[])
 
     qmlRegisterType<QLineItem>("my", 1, 0, "QLineItem");
 
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    //QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    //QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     RHIApplication app(argc, argv);
 
