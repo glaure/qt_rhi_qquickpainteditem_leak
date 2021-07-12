@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# 3rdparty
+3rdparty
+
+build/*
+build64/*
