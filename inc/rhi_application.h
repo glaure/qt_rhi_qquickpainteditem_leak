@@ -14,6 +14,7 @@ enum class RenderingMode
     Desktop_3D11_RHI,
     ANGLE_D3D9,
     ANGLE_D3D11,
+    NullRhi,
 };
 
 
@@ -48,6 +49,8 @@ public:
             return "ANGLE_D3D9";
         case RenderingMode::ANGLE_D3D11:
             return "ANGLE_D3D11";
+        case RenderingMode::NullRhi:
+            return "NullRhi";
         }
 
         return "Unknown mode";

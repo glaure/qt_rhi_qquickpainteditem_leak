@@ -38,6 +38,10 @@ RHIApplication::RHIApplication(int& argc, char** argv)
         {
             m_app_data->setRenderingMode(RenderingMode::ANGLE_D3D11);
         }
+        else if (graphics_backend == "NullRhi")
+        {
+            m_app_data->setRenderingMode(RenderingMode::NullRhi);
+        }
         
     }
 
@@ -76,6 +80,9 @@ bool RHIApplication::init()
     case RenderingMode::ANGLE_D3D11:
         m_app.setAttribute(Qt::AA_UseOpenGLES, true);
         qputenv("QT_ANGLE_PLATFORM", "d3d11");
+        break;
+    case RenderingMode::NullRhi:
+        QQuickWindow::setSceneGraphBackend(QSGRendererInterface::NullRhi);
         break;
     }
 
