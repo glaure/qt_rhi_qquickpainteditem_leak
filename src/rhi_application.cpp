@@ -13,6 +13,8 @@ RHIApplication::RHIApplication(int& argc, char** argv)
     , m_qml_main_file()
     , m_qml_reloader(nullptr)
 {
+    
+    // todo parse commandline
 
 }
 
@@ -26,6 +28,29 @@ RHIApplication::~RHIApplication()
 bool RHIApplication::init()
 {
     m_app_data = new RHIApplicationData;
+
+
+    switch (m_app_data->getRenderingMode())
+    {
+    case RenderingMode::Dynamic:
+        break;
+    case RenderingMode::Desktop_OpenGL:
+        m_app.setAttribute(Qt::AA_UseDesktopOpenGL, true);
+        break;
+    case RenderingMode::Desktop_OpenGL_RHI:
+        m_app.setAttribute(Qt::AA_UseDesktopOpenGL, true);
+        QQuickWindow::setSceneGraphBackend(QSGRendererInterface::OpenGLRhi);
+        break;
+    case RenderingMode::ANGLE_D3D9:
+        m_app.setAttribute(Qt::AA_UseOpenGLES, true);
+        qputenv("QT_ANGLE_PLATFORM", "d3d9");
+        break;
+    case RenderingMode::ANGLE_D3D11:
+        m_app.setAttribute(Qt::AA_UseOpenGLES, true);
+        qputenv("QT_ANGLE_PLATFORM", "d3d11");
+        break;
+    }
+
 
     m_qml_main_file.clear();
 

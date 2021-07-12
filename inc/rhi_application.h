@@ -6,15 +6,62 @@
 #include "qml_reloader.h"
 
 
+enum class RenderingMode
+{
+    Dynamic,
+    Desktop_OpenGL,
+    Desktop_OpenGL_RHI,
+    ANGLE_D3D9,
+    ANGLE_D3D11,
+};
+
+
 class RHIApplicationData : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(QString renderingMode                READ getRenderingModeStr             CONSTANT)
 public:
+
     RHIApplicationData()
+        : m_rendering_mode(RenderingMode::Desktop_OpenGL_RHI)
     {}
+
     ~RHIApplicationData()
     {}
+
+
+    QString getRenderingModeStr() const
+    {
+        switch (m_rendering_mode)
+        {
+        case RenderingMode::Dynamic:
+            return "Dynamic";
+        case RenderingMode::Desktop_OpenGL:
+            return "Desktop_OpenGL";
+        case RenderingMode::Desktop_OpenGL_RHI:
+            return "Desktop_OpenGL_RHI";
+        case RenderingMode::ANGLE_D3D9:
+            return "ANGLE_D3D9";
+        case RenderingMode::ANGLE_D3D11:
+            return "ANGLE_D3D11";
+        }
+
+        return "Unknown mode";
+    }
+
+    void setRenderingMode(RenderingMode rendering_mode)
+    {
+        m_rendering_mode = rendering_mode;
+    }
+
+    RenderingMode getRenderingMode() const
+    {
+        return m_rendering_mode;
+    }
+
+private:
+    RenderingMode m_rendering_mode;
 };
 
 

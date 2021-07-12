@@ -39,14 +39,14 @@ add_subdirectory(qml)
 
 set(RHI_HEADER_FILES
   inc/rhi_application.h 
-  inc/rhi_qquickpaintediem_bug.h
+  inc/qline_item.h
   inc/qml_reloader.h
 )
 
 set(RHI_SOURCE_FILES
   src/rhi_bug.cpp
   src/rhi_application.cpp
-  src/rhi_qquickpaintediem_bug.cpp
+  src/qline_item.cpp
   src/qml_reloader.cpp
 )
 
