@@ -21,3 +21,6 @@ Only the older OpenGL and Angle backends do not leak.
 All *Rhi backends (even NullRhi) leak memory.
 
 This bug is not resolved in Qt 5.12.2
+
+
+The Qt6 branch uses Qt6 for comparison.
