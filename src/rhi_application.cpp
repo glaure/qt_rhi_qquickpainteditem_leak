@@ -64,14 +64,15 @@ bool RHIApplication::init()
         break;
     case RenderingMode::Desktop_OpenGL:
         m_app.setAttribute(Qt::AA_UseDesktopOpenGL, true);
+        QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
         break;
     case RenderingMode::Desktop_OpenGL_RHI:
         m_app.setAttribute(Qt::AA_UseDesktopOpenGL, true);
-        QQuickWindow::setSceneGraphBackend(QSGRendererInterface::OpenGLRhi);
+        QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGLRhi);
         break;
     case RenderingMode::Desktop_3D11_RHI:
         m_app.setAttribute(Qt::AA_UseDesktopOpenGL, true);
-        QQuickWindow::setSceneGraphBackend(QSGRendererInterface::Direct3D11Rhi);
+        QQuickWindow::setGraphicsApi(QSGRendererInterface::Direct3D11Rhi);
         break;
     case RenderingMode::ANGLE_D3D9:
         m_app.setAttribute(Qt::AA_UseOpenGLES, true);
@@ -82,7 +83,7 @@ bool RHIApplication::init()
         qputenv("QT_ANGLE_PLATFORM", "d3d11");
         break;
     case RenderingMode::NullRhi:
-        QQuickWindow::setSceneGraphBackend(QSGRendererInterface::NullRhi);
+        QQuickWindow::setGraphicsApi(QSGRendererInterface::NullRhi);
         break;
     }
 

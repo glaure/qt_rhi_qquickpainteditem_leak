@@ -23,7 +23,7 @@ if (NOT SW_APP_ROOT)
 endif()
 
 # default qt list
-set(QT_CANDIDATES "5.15.2;5.12.6;5.12.5")
+set(QT_CANDIDATES "6.2.0;5.15.2;5.12.6;5.12.5")
 
 
 if (QT_BASE_PATH)
@@ -119,7 +119,8 @@ if(NOT QT_VERSION)
 endif()
 
 # find Qt cmake support files
-find_path(QT_CMAKE_PATH Qt5/Qt5Config.cmake
+find_path(QT_CMAKE_PATH Qt5/Qt5Config.cmake Qt6/Qt6Config.cmake
+  HINTS Qt5 Qt6
   ${_qt_base_path}/lib/cmake
 )
 
